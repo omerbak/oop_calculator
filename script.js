@@ -3,10 +3,11 @@ const secScreen = document.querySelector(".secondary-screen");
 const numbers = document.querySelectorAll(".number");
 const operations = document.querySelectorAll(".operation");
 const equal = document.querySelector(".equal");
-let firstOperand, secondOperand;
+let firstOperand = null, secondOperand = null;
 let opertaionType ;
 const clear = document.querySelector(".clear");
 const del = document.querySelector(".del");
+
 numbers.forEach(num => {
     num.addEventListener("click", (e) => {
         mainScreen.textContent += num.dataset.value;
@@ -16,29 +17,41 @@ numbers.forEach(num => {
 
 operations.forEach(ope => {
     ope.addEventListener("click", () => {
-        firstOperand = Number(mainScreen.textContent);
-        opertaionType = ope.dataset.value;
-        mainScreen.textContent = "";
-        secScreen.textContent = firstOperand + ope.textContent;;
-       /*  if(ope.dataset.value === "addi" ){
-            firstOperand = Number(mainScreen.textContent) + Number(secScreen.textContent)
-            secScreen.textContent = firstOperand;
-            mainScreen.textContent = "";
+       //if(mainScreen.textContent !== ""){
+            if(firstOperand === null && secondOperand === null){
+                firstOperand = Number(mainScreen.textContent);
+                opertaionType = ope.dataset.value;
+                mainScreen.textContent = "";
+                secScreen.textContent = firstOperand + ope.textContent;
+                console.log(firstOperand, secondOperand);
 
-        } else if (ope.dataset.value === "sub" ){
-            firstOperand = Number(mainScreen.textContent)  Number(secScreen.textContent)
-            secScreen.textContent = firstOperand;
-            mainScreen.textContent = "";
-        } */
-        
+            } else if(firstOperand !== null && secondOperand === null){
+                secondOperand = Number(mainScreen.textContent);
+                firstOperand = caluculate(firstOperand, secondOperand, opertaionType);
+                secondOperand = null;
+                secScreen.textContent = firstOperand + ope.textContent;
+                opertaionType = ope.dataset.value;
+                mainScreen.textContent = "";
+
+            } else if(firstOperand !== null && secondOperand !== null){
+                firstOperand = Number(mainScreen.textContent);
+                secondOperand = null;
+                mainScreen.textContent = "";
+                opertaionType = ope.dataset.value;
+                secScreen.textContent = firstOperand + ope.textContent;
+            }
+       // }
     })
 })
 
 equal.addEventListener("click", () => {
-    secondOperand = Number(mainScreen.textContent);
-    let result = caluculate(firstOperand, secondOperand, opertaionType);
-    secScreen.textContent += mainScreen.textContent;
-    mainScreen.textContent = result;
+    
+    if(secondOperand === null){
+        secondOperand = Number(mainScreen.textContent);
+        firstOperand = caluculate(firstOperand, secondOperand, opertaionType);
+        secScreen.textContent += mainScreen.textContent;
+        mainScreen.textContent = firstOperand;
+    }
 })
 
 function caluculate(first, second, ope){
