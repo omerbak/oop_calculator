@@ -7,10 +7,18 @@ let firstOperand = null, secondOperand = null;
 let opertaionType ;
 const clear = document.querySelector(".clear");
 const del = document.querySelector(".del");
-
+let equalIsClicked = false;
 numbers.forEach(num => {
+   
     num.addEventListener("click", (e) => {
-        mainScreen.textContent += num.dataset.value;
+       if(equalIsClicked){
+            mainScreen.textContent = "";
+            mainScreen.textContent += num.dataset.value;
+            equalIsClicked = false;
+
+       } else{
+            mainScreen.textContent += num.dataset.value;
+        }
 
     })
 })
@@ -45,13 +53,14 @@ operations.forEach(ope => {
 })
 
 equal.addEventListener("click", () => {
-    
-    if(secondOperand === null){
-        secondOperand = Number(mainScreen.textContent);
-        firstOperand = caluculate(firstOperand, secondOperand, opertaionType);
-        secScreen.textContent += mainScreen.textContent;
-        mainScreen.textContent = firstOperand;
-    }
+        if(secondOperand === null){
+            secondOperand = Number(mainScreen.textContent);
+            firstOperand = caluculate(firstOperand, secondOperand, opertaionType);
+            secScreen.textContent += mainScreen.textContent;
+            mainScreen.textContent = firstOperand;
+            equalIsClicked = true;
+        }
+
 })
 
 function caluculate(first, second, ope){
@@ -79,6 +88,7 @@ clear.addEventListener("click", () => {
     secondOperand = null;
     mainScreen.textContent ="";
     secScreen.textContent = "";
+    equalIsClicked = false;
 })
 
 del.addEventListener("click", () => {
