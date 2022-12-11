@@ -72,26 +72,24 @@ body{
     color: #de424f;
     box-shadow: 1px 1px 2px #da8a91;
 }
-.app-container .buttons span.operation:hover{
-    background-color: #de424f;
-    color: white;
-}
+.app-container .buttons span.equal:hover, 
+.app-container .buttons span.operation:hover,
 .app-container .buttons span.clear:hover,
 .app-container .buttons span.del:hover{
-    background-color: #de424f;
-    color: white;
+    background-color: #e8989d;
 }
+.app-container .buttons span.equal:active, 
 .app-container .buttons span.clear:active,
 .app-container .buttons span.operation:active,
 .app-container .buttons span.del:active{
-    background-color: white;
-    color: #de424f;
+    color: white;
+    background-color: #de424f;
 }
 .app-container .buttons span.number:hover{
     background-color: #f6ebe8;
 }
 .app-container .buttons span.number:active{
-    background-color: #de424f;
+    background-color:  #f5c5b8;
 }
 
 .app-container .buttons span.equal {
