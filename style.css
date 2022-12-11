@@ -1,0 +1,118 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    min-height: 100vh;
+    position: relative;
+    background-image: linear-gradient(to right, #f4ede7, #d88e81);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-container{
+    width: 300px;
+    /* position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); */
+    background-color: #f7f7f7;
+    padding: 15px 0 0 0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+.screens {
+    padding: 15px;
+}
+.screens .main-screen {
+    color: #de424f;
+    font-size: 1.8rem;
+    height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.screens .secondary-screen{
+    color: rgb(101, 101, 101);
+    margin-bottom: 5px;
+    font-weight: 200;
+    height: 25px;
+}
+
+.app-container .buttons {
+    display: grid;
+    grid-template: repeat(5, 1fr)/ repeat(4,1fr);
+    justify-content: space-between;
+    justify-items: center;
+    gap: 15px;   
+    background-color: #f4ede7; 
+    padding: 30px 25px;    
+}
+
+.app-container .buttons span {
+    display: block;
+    background-color: #f4f4f4;
+    width: 50px;
+    height: 50px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.5rem;
+    box-shadow: 1px 1px 2px #d7d1d2;
+    transition: 0.5s;
+}
+.app-container .buttons span.operation,
+.app-container .buttons span.special{
+    background-color: #e8d7d9;
+    color: #de424f;
+    box-shadow: 1px 1px 2px #da8a91;
+}
+.app-container .buttons span.operation:hover{
+    background-color: #de424f;
+    color: white;
+}
+.app-container .buttons span.clear:hover,
+.app-container .buttons span.del:hover{
+    background-color: #de424f;
+    color: white;
+}
+.app-container .buttons span.clear:active,
+.app-container .buttons span.operation:active,
+.app-container .buttons span.del:active{
+    background-color: white;
+    color: #de424f;
+}
+.app-container .buttons span.number:hover{
+    background-color: #f6ebe8;
+}
+.app-container .buttons span.number:active{
+    background-color: #de424f;
+}
+
+.app-container .buttons span.equal {
+    grid-area: 5/ 3/ 6/ 5;
+    width: 100px;
+    border-radius: 1000px;
+}
+
+.app-container .buttons span._0{
+    grid-area: 5/1/6/2;
+}
+.app-container .buttons span.mult{
+    grid-area: 2/ 4/3 /5;
+}
+.app-container .buttons span.sub{
+    grid-area: 3/ 4/4 /5;
+}
+.app-container .buttons span.addi{
+    grid-area: 4/ 4/5 /5;
+}
+
+.note{
+    color: #de424f;
+}
