@@ -8,10 +8,13 @@ let opertaionType ;
 const clear = document.querySelector(".clear");
 const del = document.querySelector(".del");
 let equalIsClicked = false;
+
+// cliking on a number fonctionality 
 numbers.forEach(num => {
    
     num.addEventListener("click", (e) => {
-       if(equalIsClicked){
+        
+       if(equalIsClicked){ //clear the main screen if it's content is a result of operation
             mainScreen.textContent = "";
             mainScreen.textContent += num.dataset.value;
             equalIsClicked = false;
@@ -23,9 +26,10 @@ numbers.forEach(num => {
     })
 })
 
+//clicking on an operation fonctionality
 operations.forEach(ope => {
     ope.addEventListener("click", () => {
-       //if(mainScreen.textContent !== ""){
+       
             if(firstOperand === null && secondOperand === null){
                 firstOperand = Number(mainScreen.textContent);
                 opertaionType = ope.dataset.value;
@@ -48,10 +52,11 @@ operations.forEach(ope => {
                 opertaionType = ope.dataset.value;
                 secScreen.textContent = firstOperand + ope.textContent;
             }
-       // }
+       
     })
 })
 
+//clicking on equal button fonctionality
 equal.addEventListener("click", () => {
         if(secondOperand === null){
             secondOperand = Number(mainScreen.textContent);
@@ -62,6 +67,7 @@ equal.addEventListener("click", () => {
         }
 
 })
+
 
 function caluculate(first, second, ope){
     console.log(first, second,ope);
@@ -82,7 +88,7 @@ function caluculate(first, second, ope){
     }
 }
 
-
+// clear button fonctionality
 clear.addEventListener("click", () => {
     firstOperand = null;
     secondOperand = null;
@@ -91,6 +97,7 @@ clear.addEventListener("click", () => {
     equalIsClicked = false;
 })
 
+// del button foncitonality
 del.addEventListener("click", () => {
     let text = mainScreen.textContent;
     if(text.length > 1){
