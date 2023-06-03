@@ -15,6 +15,7 @@ class Calculator {
     if (this.isCalculated) {
       this.currentOperand = "";
       this.isCalculated = false;
+      this.updateScreen();
     }
     this.currentOperand += num;
     this.updateScreen();
