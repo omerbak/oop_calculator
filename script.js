@@ -1,109 +1,123 @@
-const mainScreen = document.querySelector(".main-screen");
-const secScreen = document.querySelector(".secondary-screen");
+class Calculator {
+  constructor(currentOperandHtml, prevOperandHtml) {
+    this.currentOperandHtml = currentOperandHtml;
+    this.prevOperandHtml = prevOperandHtml;
+    this.currentOperand = "";
+    this.prevOperand = "";
+    this.operation = null;
+    /*  isCalculated property is to prevent the action of apending to a reslut 
+    that is claculated and not a number entered by the user */
+    this.isCalculated = false;
+  }
+
+  appendNumber(num) {
+    if (num == "." && this.currentOperand.includes(".")) return;
+    if (this.isCalculated) {
+      this.currentOperand = "";
+      this.isCalculated = false;
+    }
+    this.currentOperand += num;
+    this.updateScreen();
+  }
+
+  chooseOperation(operation) {
+    if (this.currentOperand === "") return;
+    if (this.prevOperand != "") {
+      this.calculate();
+    }
+    this.operation = operation;
+    this.prevOperand = this.currentOperand;
+    this.currentOperand = "";
+    this.updateScreen();
+    //console.log(this.operation);
+  }
+
+  calculate() {
+    let calculation;
+    let prev = parseFloat(this.prevOperand);
+    let curr = parseFloat(this.currentOperand);
+    if (isNaN(prev) || isNaN(curr)) return;
+    switch (this.operation) {
+      case "+":
+        calculation = prev + curr;
+        break;
+      case "-":
+        calculation = prev - curr;
+        break;
+      case "*":
+        calculation = prev * curr;
+        break;
+      case "/":
+        calculation = prev / curr;
+        break;
+      case "%":
+        calculation = prev % curr;
+        break;
+      default:
+        return;
+    }
+
+    this.currentOperand = (Math.round(calculation * 100) / 100).toString();
+    this.operation = null;
+    this.prevOperand = "";
+    this.isCalculated = true;
+    this.updateScreen();
+  }
+
+  del() {
+    if (this.currentOperand.length <= 0) return;
+    this.currentOperand = this.currentOperand.slice(0, -1);
+    this.updateScreen();
+  }
+
+  reset() {
+    this.currentOperand = "";
+    this.prevOperand = "";
+    this.operation = null;
+    this.updateScreen();
+  }
+
+  updateScreen() {
+    this.currentOperandHtml.textContent = this.currentOperand;
+    if (this.operation) {
+      this.prevOperandHtml.textContent = `${this.prevOperand} ${this.operation}`;
+    } else {
+      this.prevOperandHtml.textContent = `${this.prevOperand}`;
+    }
+  }
+}
+
+const currentOperandHtml = document.querySelector(".main-screen");
+const prevOperandHtml = document.querySelector(".secondary-screen");
 const numbers = document.querySelectorAll(".number");
 const operations = document.querySelectorAll(".operation");
 const equal = document.querySelector(".equal");
-let firstOperand = null, secondOperand = null;
-let opertaionType ;
 const clear = document.querySelector(".clear");
 const del = document.querySelector(".del");
-let equalIsClicked = false;
 
-// cliking on a number fonctionality 
-numbers.forEach(num => {
-   
-    num.addEventListener("click", (e) => {
-        
-       if(equalIsClicked){ //clear the main screen if it's content is a result of operation
-            mainScreen.textContent = "";
-            mainScreen.textContent += num.dataset.value;
-            equalIsClicked = false;
+// initiate our calculator
+let calc = new Calculator(currentOperandHtml, prevOperandHtml);
 
-       } else{
-            mainScreen.textContent += num.dataset.value;
-        }
+numbers.forEach((number) =>
+  number.addEventListener("click", () => {
+    calc.appendNumber(number.innerHTML);
+  })
+);
 
-    })
-})
+operations.forEach((ope) =>
+  ope.addEventListener("click", () => {
+    calc.chooseOperation(ope.textContent);
+  })
+);
 
-//clicking on an operation fonctionality
-operations.forEach(ope => {
-    ope.addEventListener("click", () => {
-       
-            if(firstOperand === null && secondOperand === null){
-                firstOperand = Number(mainScreen.textContent);
-                opertaionType = ope.dataset.value;
-                mainScreen.textContent = "";
-                secScreen.textContent = firstOperand + ope.textContent;
-                console.log(firstOperand, secondOperand);
-
-            } else if(firstOperand !== null && secondOperand === null){
-                secondOperand = Number(mainScreen.textContent);
-                firstOperand = caluculate(firstOperand, secondOperand, opertaionType);
-                secondOperand = null;
-                secScreen.textContent = firstOperand + ope.textContent;
-                opertaionType = ope.dataset.value;
-                mainScreen.textContent = "";
-
-            } else if(firstOperand !== null && secondOperand !== null){
-                firstOperand = Number(mainScreen.textContent);
-                secondOperand = null;
-                mainScreen.textContent = "";
-                opertaionType = ope.dataset.value;
-                secScreen.textContent = firstOperand + ope.textContent;
-            }
-       
-    })
-})
-
-//clicking on equal button fonctionality
-equal.addEventListener("click", () => {
-        if(secondOperand === null){
-            secondOperand = Number(mainScreen.textContent);
-            firstOperand = caluculate(firstOperand, secondOperand, opertaionType);
-            secScreen.textContent += mainScreen.textContent;
-            mainScreen.textContent = firstOperand;
-            equalIsClicked = true;
-        }
-
-})
-
-
-function caluculate(first, second, ope){
-    console.log(first, second,ope);
-    if(ope === "addi"){
-        return Number(first) + Number(second);
-
-    } else if(ope === "sub"){
-        return Number(first) - Number(second);
-
-    } else if(ope === "mult"){
-        return Number(first) * Number(second);
-
-    } else if(ope === "divi"){
-        return Number(first) / Number(second);
-
-    } else if (ope === "mod") {
-        return Number(first) % Number(second);
-    }
-}
-
-// clear button fonctionality
 clear.addEventListener("click", () => {
-    firstOperand = null;
-    secondOperand = null;
-    mainScreen.textContent ="";
-    secScreen.textContent = "";
-    equalIsClicked = false;
-})
+  calc.reset();
+});
 
-// del button foncitonality
 del.addEventListener("click", () => {
-    let text = mainScreen.textContent;
-    if(text.length > 1){
-        mainScreen.textContent = text.slice(0, text.length - 1);
+  calc.del();
+});
 
-    } else if( text.length === 1){
-        mainScreen.textContent = "";
-    }
-})
+equal.addEventListener("click", () => {
+  calc.calculate();
+});
